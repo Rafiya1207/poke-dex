@@ -10,11 +10,10 @@ export const createApp = (pokemons, renderPokemons) => {
   app.use(async (c, next) => {
     c.set("pokemons", pokemons);
     c.set("renderPokemons", renderPokemons);
-    c.set("activePage", "all");
     await next();
   });
 
-  app.get("/index.html", servePokemons);
+  app.get("/:name", servePokemons);
   app.get("*", serveStatic({ root: "./public" }));
   return app;
 };

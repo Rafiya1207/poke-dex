@@ -13,8 +13,8 @@
       <div class="side-bar">
         <ul>
           <% it.links.forEach(function(link){ %>
-            <li class="link <%= it.activePage === link && link %>">
-              <a href="/src/<%= link %>.html" class="<%= it.activePage === link ? 'white-font' : 'grey-font' %>">
+            <li class="link <%= it.activePokemon === link ? link : '' %>">
+              <a href="/<%= link === 'all' ? 'index' : link %>" class="<%= it.activePokemon === link ? 'white-font' : 'grey-font' %>">
                 <%= it.capitalize(link) %>
               </a>
             </li>
@@ -67,9 +67,9 @@
                 </td>
               </tr>
               <tr>
-                <td class="bold">Defence</td>
+                <td class="bold">Defense</td>
                 <td class="align-right">
-                  <%= pokemon.defence%>
+                  <%= pokemon.defense%>
                 </td>
               </tr>
               <tr>

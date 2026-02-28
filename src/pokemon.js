@@ -22,12 +22,25 @@ const links = [
   "water",
 ];
 
-export const servePokemons = (c) => {
+const filterPokemonsByType = (pokemons, type) =>
+  pokemons.filter(({ types }) => types.includes(type));
+
+export const servePokemons = async (c) => {
+  const { name } = await c.req.param();
+  const activePokemon = name === "index" ? "all" : name;
+
+  if (!links.includes(activePokemon)) {
+    return c.json({ error: "not found" }, 404);
+  }
+
   const pokemons = c.get("pokemons");
   const renderPokemons = c.get("renderPokemons");
-  const activePage = c.get("activePage");
+
+  const data = activePokemon === "all"
+    ? pokemons
+    : filterPokemonsByType(pokemons, activePokemon);
 
   return c.html(
-    renderPokemons({ pokemons: pokemons, capitalize, links, activePage }),
+    renderPokemons({ pokemons: data, capitalize, links, activePokemon }),
   );
 };

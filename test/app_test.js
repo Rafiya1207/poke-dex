@@ -21,4 +21,10 @@ describe("POKEDEX", () => {
 
     assertEquals(res.status, 404);
   });
+  it("should serve searched pokemon", async() => {
+    const app = createApp([], () => {});
+    const res = await app.request("/electric?pokemon=pikachu");
+
+    assertEquals(res.status, 200);
+  });
 });

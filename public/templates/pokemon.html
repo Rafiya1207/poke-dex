@@ -7,14 +7,22 @@
 </head>
 
 <body>
-  <header></header>
+  <header>
+    <div>
+      <form action="" method="get">
+        <input type="text" placeholder="Seach By Name" name="pokemon">
+        <button type="submit">Search</button>
+      </form>
+    </div>
+  </header>
   <main>
     <aside>
       <div class="side-bar">
         <ul>
           <% it.links.forEach(function(link){ %>
             <li class="link <%= it.activePokemon === link ? link : '' %>">
-              <a href="/<%= link === 'all' ? 'index' : link %>" class="<%= it.activePokemon === link ? 'white-font' : 'grey-font' %>">
+              <a href="/<%= link === 'all' ? 'index' : link %>"
+                class="<%= it.activePokemon === link ? 'white-font' : 'grey-font' %>">
                 <%= it.capitalize(link) %>
               </a>
             </li>

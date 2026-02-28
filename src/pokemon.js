@@ -25,8 +25,13 @@ const links = [
 const filterPokemonsByType = (pokemons, type) =>
   pokemons.filter(({ types }) => types.includes(type));
 
+const filterPokemonsByName = (pokemons, pokemon) =>
+  pokemons.filter(({ name }) => name.startsWith(pokemon));
+
 export const servePokemons = async (c) => {
   const { name } = await c.req.param();
+  const searchPokemon = c.req.query("pokemon");
+
   const activePokemon = name === "index" ? "all" : name;
 
   if (!links.includes(activePokemon)) {
@@ -40,7 +45,16 @@ export const servePokemons = async (c) => {
     ? pokemons
     : filterPokemonsByType(pokemons, activePokemon);
 
+  const foundPokemons = searchPokemon !== undefined
+    ? filterPokemonsByName(data, searchPokemon)
+    : data;
+
   return c.html(
-    renderPokemons({ pokemons: data, capitalize, links, activePokemon }),
+    renderPokemons({
+      pokemons: foundPokemons,
+      capitalize,
+      links,
+      activePokemon,
+    }),
   );
 };

@@ -10,6 +10,7 @@ export const createApp = (pokemons, renderPokemons) => {
   app.use(async (c, next) => {
     c.set("pokemons", pokemons);
     c.set("renderPokemons", renderPokemons);
+    c.set("activePage", "all");
     await next();
   });
 

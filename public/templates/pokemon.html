@@ -1,0 +1,76 @@
+<html>
+
+<head>
+  <title>Pokedex</title>
+  <link rel="stylesheet" href="/styles/colors.css">
+  <link rel="stylesheet" href="/styles/style.css">
+</head>
+
+<body>
+  <header></header>
+  <main>
+    <div class="flex main">
+      <% it.pokemons.forEach(function(pokemon) { %>
+        <div class="card">
+          <div class="image-container">
+            <img src="<%= pokemon.image %>" alt="<%= pokemon.name %>" class="image">
+          </div>
+          <div class="details">
+            <div class="flex pokemon-header ">
+              <h2 class="grey-font bold">
+                <%= it.capitalize(pokemon.name) %>
+              </h2>
+              <div class="flex pokemon-types">
+                <% pokemon.types.forEach(function(type){ %>
+                  <div class="<%= type %> white-font pokemon-type">
+                    <%= it.capitalize(type) %>
+                  </div>
+                  <% }) %>
+              </div>
+            </div>
+            <table class="table grey-font">
+              <tr>
+                <td class="bold">Weight</td>
+                <td class="align-right">
+                  <%= pokemon.weight%>
+                </td>
+              </tr>
+              <tr>
+                <td class="bold">Base XP</td>
+                <td class="align-right">
+                  <%= pokemon.baseXP%>
+                </td>
+              </tr>
+              <tr>
+                <td class="bold">HP</td>
+                <td class="align-right">
+                  <%= pokemon.hp%>
+                </td>
+              </tr>
+              <tr>
+                <td class="bold">Attack</td>
+                <td class="align-right">
+                  <%= pokemon.attack%>
+                </td>
+              </tr>
+              <tr>
+                <td class="bold">Defence</td>
+                <td class="align-right">
+                  <%= pokemon.defence%>
+                </td>
+              </tr>
+              <tr>
+                <td class="bold">Speed</td>
+                <td class="align-right">
+                  <%= pokemon.speed%>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+        <%})%>
+    </div>
+  </main>
+</body>
+
+</html>

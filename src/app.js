@@ -3,13 +3,12 @@ import { logger } from "hono/logger";
 import { servePokemons } from "./pokemon.js";
 import { serveStatic } from "hono/deno";
 
-export const createApp = (pokemons, renderPokemons) => {
+export const createApp = (pokemons) => {
   const app = new Hono();
 
   app.use(logger());
   app.use(async (c, next) => {
     c.set("pokemons", pokemons);
-    c.set("renderPokemons", renderPokemons);
     await next();
   });
 

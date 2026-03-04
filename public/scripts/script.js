@@ -1,4 +1,4 @@
-import { createPokedex, page } from "./utils.js";
+import { page } from "./utils.js";
 
 const fetchPokemons = () =>
   fetch('/pokemons').then(res => res.json())

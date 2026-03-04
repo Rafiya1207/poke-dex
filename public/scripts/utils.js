@@ -1,6 +1,6 @@
-export const capitalize = (str) => str[0].toUpperCase() + str.slice(1);
+const capitalize = (str) => str[0].toUpperCase() + str.slice(1);
 
-export const createFragment = ([tag, attrs, ...content]) => {
+const createFragment = ([tag, attrs, ...content]) => {
   const element = document.createElement(tag);
   for (const attr of Object.entries(attrs)) {
     element.setAttribute(...attr)
@@ -34,7 +34,7 @@ const formatStats = (stats) => {
   )
 }
 
-export const createPokemonCard = ({ name, types, stats, image }) => {
+const createPokemonCard = ({ name, types, stats, image }) => {
   const typesElements = types.map(type => ['div', { class: `white-font pokemon-type ${type}` }, type]);
   const statsRows = formatStats(stats);
   const imageElement = ['img', { src: image, alt: name, class: 'image' }, '']
@@ -51,7 +51,7 @@ export const createPokemonCard = ({ name, types, stats, image }) => {
   return createFragment(card);
 }
 
-export const createPokedex = (pokemons) => {
+const createPokedex = (pokemons) => {
   const pokedexContainer = document.querySelector('.pokedex-container');
   const pokedex = pokemons.map(createPokemonCard);
   pokedexContainer.append(...pokedex);

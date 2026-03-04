@@ -13,7 +13,7 @@ const getDetails = (data) => {
     return res;
   }, {});
 
-  return { id, name, types, weight, image, baseXP, ...stats };
+  return { id, name, types, image, stats: { weight, baseXP, ...stats } };
 };
 
 const encode = (data) => new TextEncoder().encode(data);
@@ -22,27 +22,19 @@ const getPokemons = async () => {
   const pokemons = [];
 
   const fs = await Deno.open("./data/pokemons.json", { append: true });
-  let currentId = 1;
 
-  const id = setInterval(async () => {
-    if (currentId >= 1025) {
-      clearInterval(id);
-      return;
+  let i = 0;
+  while ((i++ <= 1025)) {
+    const response = await fetch(
+      `https://pokeapi.co/api/v2/pokemon/${i}`,
+    );
+    if (response.ok) {
+      const data = await response.json();
+      const pokemon = getDetails(data);
+
+      pokemons.push(pokemon);
     }
-
-    let i = 0;
-    while (!(i++ < 100)) {
-      const response = await fetch(
-        `https://pokeapi.co/api/v2/pokemon/${currentId++}`,
-      );
-      if (response.ok) {
-        const data = await response.json();
-        const pokemon = getDetails(data);
-
-        pokemons.push(pokemon);
-      }
-    }
-  }, 100);
+  }
 
   await fs.writable.getWriter().write(encode(JSON.stringify(pokemons)));
 };

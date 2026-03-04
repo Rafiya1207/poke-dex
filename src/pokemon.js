@@ -29,10 +29,11 @@ const filterPokemonsByName = (pokemons, pokemon) =>
   pokemons.filter(({ name }) => name.startsWith(pokemon));
 
 export const servePokemons = async (c) => {
+
   const { name } = await c.req.param();
   const searchPokemon = c.req.query("pokemon");
 
-  const activePokemon = name === "index" ? "all" : name;
+  const activePokemon = name === undefined ? "all" : name;
 
   if (!links.includes(activePokemon)) {
     return c.json({ error: "not found" }, 404);
@@ -49,12 +50,5 @@ export const servePokemons = async (c) => {
     ? filterPokemonsByName(data, searchPokemon)
     : data;
 
-  return c.html(
-    renderPokemons({
-      pokemons: foundPokemons,
-      capitalize,
-      links,
-      activePokemon,
-    }),
-  );
+  return c.json(foundPokemons, 200);
 };

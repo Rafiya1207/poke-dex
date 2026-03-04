@@ -13,7 +13,7 @@ export const createApp = (pokemons, renderPokemons) => {
     await next();
   });
 
-  app.get("/:name", servePokemons);
+  app.get("/pokemons", servePokemons);
   app.get("*", serveStatic({ root: "./public" }));
   return app;
 };

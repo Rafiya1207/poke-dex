@@ -53,6 +53,41 @@ export const createPokemonCard = ({ name, types, stats, image }) => {
 
 export const createPokedex = (pokemons) => {
   const pokedexContainer = document.querySelector('.pokedex-container');
-  const pokedex = pokemons.map(createPokemonCard)
+  const pokedex = pokemons.map(createPokemonCard);
   pokedexContainer.append(...pokedex);
+}
+
+const createSideBar = (links) => {
+  const sideBar = document.querySelector('.side-bar');
+  const linkElements = links.map(link => ['li', { class: 'link' }, link])
+  const list = ['ul', {},
+    ...linkElements
+  ];
+  sideBar.append(createFragment(list));
+}
+
+export const page = (pokemons) => {
+  const links = [
+    "all",
+    "bug",
+    "dark",
+    "dragon",
+    "electric",
+    "fairy",
+    "fighting",
+    "fire",
+    "flying",
+    "ghost",
+    "grass",
+    "ground",
+    "ice",
+    "normal",
+    "poison",
+    "psychic",
+    "rock",
+    "steel",
+    "water",
+  ]
+  createPokedex(pokemons)
+  createSideBar(links)
 }

@@ -52,18 +52,28 @@ const createPokemonCard = ({ name, types, stats, image }) => {
 }
 
 const createPokedex = (pokemons) => {
-  const pokedexContainer = document.querySelector('.pokedex-container');
-  const pokedex = pokemons.map(createPokemonCard);
-  pokedexContainer.append(...pokedex);
+  const pokedex = createFragment(['div', { class: 'pokedex-container flex main' }, '']);
+  pokedex.append(...pokemons.map(createPokemonCard));
+  return pokedex
+}
+
+const addListenersToLinks = (links) => {
+  links.forEach(link => {
+    link.addEventListener('click', () =>
+      fetch(`/pokemons/${link.innerText.toLowerCase()}`)
+        .then(res => res.json())
+        .then(page)
+    );
+  })
 }
 
 const createSideBar = (links) => {
-  const sideBar = document.querySelector('.side-bar');
-  const linkElements = links.map(link => ['li', { class: 'link' }, link])
+  const linkElements = links.map(link => ['li', { class: 'link' }, link]);
   const list = ['ul', {},
     ...linkElements
   ];
-  sideBar.append(createFragment(list));
+  const sideBar = ['div', { class: 'side-bar' }, list]
+  return createFragment(sideBar)
 }
 
 export const page = (pokemons) => {
@@ -87,7 +97,16 @@ export const page = (pokemons) => {
     "rock",
     "steel",
     "water",
-  ]
-  createPokedex(pokemons)
-  createSideBar(links)
+  ];
+  const pokedex = createPokedex(pokemons)
+  const sideBar = createSideBar(links)
+  const main = document.querySelector('main');
+  const sideBarElement = document.querySelector('.side-bar');
+  const pokedexElement = document.querySelector('.pokedex-container');
+
+  sideBarElement.remove()
+  main.removeChild(pokedexElement)
+  main.append(sideBar, pokedex)
+  const navigations = document.querySelectorAll('ul li');
+  addListenersToLinks(navigations);
 }

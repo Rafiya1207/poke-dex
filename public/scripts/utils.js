@@ -76,28 +76,43 @@ const createSideBar = (links) => {
   return createFragment(sideBar)
 }
 
+const addEventListeners = () => {
+  const navigations = document.querySelectorAll('ul li');
+  addListenersToLinks(navigations);
+  const search = document.querySelector('.search');
+  const type = 'bug';
+  search.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const searchString = document.querySelector('.search-string');
+    fetch(`/pokemons/${type}?pokemon=${searchString.value}`)
+      .then(res => res.json())
+      .then(page)
+  });
+}
+
+const links = [
+  "all",
+  "bug",
+  "dark",
+  "dragon",
+  "electric",
+  "fairy",
+  "fighting",
+  "fire",
+  "flying",
+  "ghost",
+  "grass",
+  "ground",
+  "ice",
+  "normal",
+  "poison",
+  "psychic",
+  "rock",
+  "steel",
+  "water",
+];
+
 export const page = (pokemons) => {
-  const links = [
-    "all",
-    "bug",
-    "dark",
-    "dragon",
-    "electric",
-    "fairy",
-    "fighting",
-    "fire",
-    "flying",
-    "ghost",
-    "grass",
-    "ground",
-    "ice",
-    "normal",
-    "poison",
-    "psychic",
-    "rock",
-    "steel",
-    "water",
-  ];
   const pokedex = createPokedex(pokemons)
   const sideBar = createSideBar(links)
   const main = document.querySelector('main');
@@ -107,6 +122,5 @@ export const page = (pokemons) => {
   sideBarElement.remove()
   main.removeChild(pokedexElement)
   main.append(sideBar, pokedex)
-  const navigations = document.querySelectorAll('ul li');
-  addListenersToLinks(navigations);
+  addEventListeners()
 }

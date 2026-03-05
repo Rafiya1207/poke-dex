@@ -35,7 +35,7 @@ const formatStats = (stats) => {
 }
 
 const createPokemonCard = ({ name, types, stats, image }) => {
-  const typesElements = types.map(type => ['div', { class: `white-font pokemon-type ${type}` }, type]);
+  const typesElements = types.map(type => ['div', { class: `white-font pokemon-type ${type}` }, capitalize(type)]);
   const statsRows = formatStats(stats);
   const imageElement = ['img', { src: image, alt: name, class: 'image' }, '']
 
@@ -69,7 +69,10 @@ const addListenersToLinks = (links) => {
 }
 
 const createSideBar = (links, activeLink) => {
-  const linkElements = links.map(link => activeLink === link ? ['li', { class: `link ${activeLink} white-font active-link` }, link] : ['li', { class: `link` }, link]);
+  const linkElements = links.map(link => activeLink === link
+    ? ['li', { class: `link ${activeLink} white-font active-link` }, capitalize(link)]
+    : ['li', { class: `link grey-font` }, capitalize(link)]);
+    
   const list = ['ul', {},
     ...linkElements
   ];
@@ -117,9 +120,6 @@ const links = [
 export const page = (pokemons, activeLink = 'all') => {
   const pokedex = createPokedex(pokemons)
   const sideBar = createSideBar(links, activeLink);
-  console.log(activeLink);
-
-  console.log(sideBar);
 
   const main = document.querySelector('main');
   const sideBarElement = document.querySelector('.side-bar');

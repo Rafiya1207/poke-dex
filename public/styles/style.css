@@ -106,4 +106,5 @@ ul {
 .link {
   padding: 5px 20px;
   font-size: 24px;
+  cursor: pointer;
 }

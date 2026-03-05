@@ -59,16 +59,17 @@ const createPokedex = (pokemons) => {
 
 const addListenersToLinks = (links) => {
   links.forEach(link => {
-    link.addEventListener('click', () =>
+    link.addEventListener('click', (e) => {
       fetch(`/pokemons/${link.innerText.toLowerCase()}`)
         .then(res => res.json())
-        .then(page)
+        .then(pokemons => page(pokemons, e.target.innerText.toLowerCase()))
+    }
     );
   })
 }
 
-const createSideBar = (links) => {
-  const linkElements = links.map(link => ['li', { class: 'link' }, link]);
+const createSideBar = (links, activeLink) => {
+  const linkElements = links.map(link => activeLink === link ? ['li', { class: `link ${activeLink} white-font active-link` }, link] : ['li', { class: `link` }, link]);
   const list = ['ul', {},
     ...linkElements
   ];
@@ -80,13 +81,14 @@ const addEventListeners = () => {
   const navigations = document.querySelectorAll('ul li');
   addListenersToLinks(navigations);
   const search = document.querySelector('.search');
-  const type = 'bug';
+
   search.addEventListener('submit', (e) => {
     e.preventDefault();
     const searchString = document.querySelector('.search-string');
-    fetch(`/pokemons/${type}?pokemon=${searchString.value}`)
+    const type = document.querySelector('.active-link');
+    fetch(`/pokemons/${type.textContent}?pokemon=${searchString.value}`)
       .then(res => res.json())
-      .then(page)
+      .then(pokemons => page(pokemons, type.textContent))
   });
 }
 
@@ -112,9 +114,13 @@ const links = [
   "water",
 ];
 
-export const page = (pokemons) => {
+export const page = (pokemons, activeLink = 'all') => {
   const pokedex = createPokedex(pokemons)
-  const sideBar = createSideBar(links)
+  const sideBar = createSideBar(links, activeLink);
+  console.log(activeLink);
+
+  console.log(sideBar);
+
   const main = document.querySelector('main');
   const sideBarElement = document.querySelector('.side-bar');
   const pokedexElement = document.querySelector('.pokedex-container');

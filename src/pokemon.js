@@ -22,7 +22,7 @@ const links = [
 
 const applyFilters = (pokemons, { type, name }) =>
   pokemons.filter(pokemon =>
-    pokemon.types.includes(type) && pokemon.name.startsWith(name)
+    pokemon.types.includes(type) && pokemon.name.startsWith(name.toLowerCase())
   )
 
 export const servePokemons = async (c) => {

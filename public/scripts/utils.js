@@ -88,10 +88,10 @@ const addEventListeners = () => {
   search.addEventListener('submit', (e) => {
     e.preventDefault();
     const searchString = document.querySelector('.search-string');
-    const type = document.querySelector('.active-link');
-    fetch(`/pokemons/${type.textContent}?pokemon=${searchString.value}`)
+    const type = document.querySelector('.active-link').textContent.toLowerCase();
+    fetch(`/pokemons/${type}?pokemon=${searchString.value}`)
       .then(res => res.json())
-      .then(pokemons => page(pokemons, type.textContent))
+      .then(pokemons => page(pokemons, type))
   });
 }
 
